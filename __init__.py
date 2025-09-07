@@ -3,7 +3,8 @@ import voluptuous as vol
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.helpers import config_validation as cv
-from .const import (IFNAME, HOST, USERNAME, PASSWORD, PORT)
+#from .const import (IFNAME, HOST, USERNAME, PASSWORD, PORT)
+from .const import (IFNAME, HOST, PORT)
 import logging
 
 
@@ -15,8 +16,8 @@ PLATFORM_SCHEMA = vol.Schema(
     {
         vol.Required(IFNAME): cv.string,
         vol.Required(HOST): cv.string,
-        vol.Required(USERNAME): cv.string,
-        vol.Required(PASSWORD): cv.string,
+#        vol.Required(USERNAME): cv.string,
+#        vol.Required(PASSWORD): cv.string,
         vol.Required(PORT): cv.string,
     }
 )
@@ -28,8 +29,8 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
         devices.append({
             "ifname": config[DOMAIN][device][IFNAME],
             "host": config[DOMAIN][device][HOST],
-            "username": config[DOMAIN][device][USERNAME],
-            "password": config[DOMAIN][device][PASSWORD],
+#            "username": config[DOMAIN][device][USERNAME],
+#            "password": config[DOMAIN][device][PASSWORD],
             "port": config[DOMAIN][device][PORT]
         })
 

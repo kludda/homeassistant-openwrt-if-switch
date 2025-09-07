@@ -1,5 +1,5 @@
 IFNAME = "ifname"
 HOST = "host"
-USERNAME = "username"
-PASSWORD = "password"
+#USERNAME = "username"
+#PASSWORD = "password"
 PORT = "port"
