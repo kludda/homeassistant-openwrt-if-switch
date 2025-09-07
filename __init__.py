@@ -1,6 +1,7 @@
 from __future__ import annotations
 import voluptuous as vol
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.discovery import async_load_platform
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.helpers import config_validation as cv
 #from .const import (IFNAME, HOST, USERNAME, PASSWORD, PORT)
@@ -37,6 +38,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     hass.data[DOMAIN] = {
         "devices": devices
     }
-    hass.helpers.discovery.load_platform('switch', DOMAIN, {}, config)
+    #hass.helpers.discovery.load_platform('switch', DOMAIN, {}, config)
+    hass.loop.call_soon_threadsafe(hass.async_create_task, async_load_platform(hass, 'switch', DOMAIN, {}, config))
 
     return True
