@@ -82,5 +82,5 @@ class WifiSwitch(SwitchEntity):
         #ssh.exec_command("uci commit wireless")
         #ssh.exec_command("wifi")
         ssh.connect(hostname=self._device["host"], port=self._device["port"], key_filename="/config/.ssh/openwrt-key")        
-        ssh.exec_command("wifi-up %s" % self._device["ifname"])
+        ssh.exec_command("wifi-down %s" % self._device["ifname"])
         ssh.close()
