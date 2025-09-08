@@ -49,7 +49,7 @@ class WifiSwitch(SwitchEntity):
         ssh.connect(hostname=self._device["host"], port=self._device["port"], key_filename="/config/.ssh/openwrt-key")
 
         #ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("uci get wireless.%s.disabled" % self._device["ifname"])
-        ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("wifi-status " % self._device["ifname"])        
+        ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("wifi-status %s" % self._device["ifname"])        
         ssh_stdout = ssh_stdout.readlines()
 
         if len(ssh_stdout) == 0:
@@ -71,7 +71,7 @@ class WifiSwitch(SwitchEntity):
         #ssh.exec_command("uci commit wireless")
         #ssh.exec_command("wifi")
         ssh.connect(hostname=self._device["host"], port=self._device["port"], key_filename="/root/.ssh/openwrt-key")        
-        ssh.exec_command("wifi-up " % self._device["ifname"])
+        ssh.exec_command("wifi-up %s" % self._device["ifname"])
         ssh.close()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
@@ -82,5 +82,5 @@ class WifiSwitch(SwitchEntity):
         #ssh.exec_command("uci commit wireless")
         #ssh.exec_command("wifi")
         ssh.connect(hostname=self._device["host"], port=self._device["port"], key_filename="/root/.ssh/openwrt-key")        
-        ssh.exec_command("wifi-up " % self._device["ifname"])
+        ssh.exec_command("wifi-up %s" % self._device["ifname"])
         ssh.close()
