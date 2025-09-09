@@ -1,10 +1,10 @@
 {
   "domain": "openwrt_if_switch",
   "name": "OpenWRT Wifi/Network Switch",
-  "documentation": "https://github.com/kludda/homeassistant-openwrt-wifi-switch/",
+  "documentation": "https://github.com/kludda/homeassistant-openwrt-if-switch/",
   "dependencies": [],
   "codeowners": ["Tarek Poltermann, David Ålind"],
   "requirements": ["paramiko"],
   "iot_class": "local_polling",
-  "version": "0.1.5"
+  "version": "0.2.0"
 }

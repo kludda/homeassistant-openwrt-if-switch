@@ -1,5 +1,5 @@
 IFNAME = "ifname"
-IFTYPE = "wifi/network"
+IFTYPE = "iftype"
 HOST = "host"
 KEYFILENAME = "key_filename"
 PORT = "port"
