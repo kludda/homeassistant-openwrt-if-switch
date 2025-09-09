@@ -1,6 +1,6 @@
 {
-  "domain": "openwrt_wifi_switch",
-  "name": "OpenWRT Wifi/network Switch",
+  "domain": "openwrt_if_switch",
+  "name": "OpenWRT Wifi/Network Switch",
   "documentation": "https://github.com/kludda/homeassistant-openwrt-wifi-switch/",
   "dependencies": [],
   "codeowners": ["Tarek Poltermann, David Ålind"],
