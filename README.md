@@ -5,7 +5,7 @@ Switch your WiFi or network on and off using Home Assistant.
 This fork adds VLAN support, key-pair auth and pseudo-commands to enchance security for root access to OpenWRT (and fix [this issue](  https://github.com/multilan-tarek/homeassistant-openwrt-wifi-switch/issues/1#issue-3129391464) 
 using [this fix](https://github.com/cozylife/hass_cozylife_local_pull/commit/4c9127d7f303ddd580cd3bc4726792e04868392a)).
 
-> **_NOTE:_**  This Home Assistant component will automatically accept any host fingerprint making it vulnerable to man-in-the-middle attacks.
+> **_NOTE:_**  This Home Assistant component will automatically accept any host fingerprint.
 
 ## Wifi vs. VLAN
 
