@@ -8,10 +8,11 @@ from homeassistant.helpers.device_registry import format_mac
 from homeassistant.helpers.entity import DeviceInfo
 import paramiko
 import logging
+import io
 
 _LOGGER = logging.getLogger(__name__)
 
-DOMAIN = 'openwrt_wifi_switch'
+DOMAIN = 'openwrt_if_switch'
 
 
 def setup_platform(hass: HomeAssistant,
@@ -20,10 +21,10 @@ def setup_platform(hass: HomeAssistant,
                    discovery_info: DiscoveryInfoType | None = None
                    ) -> None:
     for device in hass.data[DOMAIN]["devices"]:
-        add_entities([WifiSwitch(device)])
+        add_entities([IfSwitch(device)])
 
 
-class WifiSwitch(SwitchEntity):
+class IfSwitch(SwitchEntity):
     def __init__(self, device):
         self._attr_is_on = False
         self._device = device
@@ -34,7 +35,7 @@ class WifiSwitch(SwitchEntity):
 
     @property
     def icon(self) -> str:
-        return "mdi:wifi-strength-4"
+        return "mdi:lan"
 
     @property
     def unique_id(self) -> str:
@@ -45,17 +46,9 @@ class WifiSwitch(SwitchEntity):
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-#        ssh.connect(hostname=self._device["host"], port=self._device["port"], username=self._device["username"], password=self._device["password"])
-        ssh.connect(hostname=self._device["host"], port=self._device["port"], key_filename="/config/.ssh/openwrt-key")
-
-        #ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("uci get wireless.%s.disabled" % self._device["ifname"])
-        ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("wifi-status %s" % self._device["ifname"])        
+        ssh.connect(hostname=self._device["host"], port=self._device["port"], key_filename=self._device["key_filename"])
+        ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("%s-status %s" % (self._device["iftype"], self._device["ifname"]))
         ssh_stdout = ssh_stdout.readlines()
-
-        if len(ssh_stdout) == 0:
-            ssh.exec_command("uci set wireless.%s.disabled=0" % self._device["ifname"])
-            ssh.close()
-            return True
 
         ssh.close()
 
@@ -66,21 +59,13 @@ class WifiSwitch(SwitchEntity):
     async def async_turn_on(self, **kwargs: Any) -> None:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        #ssh.connect(hostname=self._device["host"], port=self._device["port"], username=self._device["username"], password=self._device["password"])
-        #ssh.exec_command("uci set wireless.%s.disabled=0" % self._device["ifname"])
-        #ssh.exec_command("uci commit wireless")
-        #ssh.exec_command("wifi")
-        ssh.connect(hostname=self._device["host"], port=self._device["port"], key_filename="/config/.ssh/openwrt-key")        
-        ssh.exec_command("wifi-up %s" % self._device["ifname"])
+        ssh.connect(hostname=self._device["host"], port=self._device["port"], key_filename=self._device["key_filename"])
+        ssh.exec_command("%s-up %s" % (self._device["iftype"], self._device["ifname"]))
         ssh.close()
 
     async def async_turn_off(self, **kwargs: Any) -> None:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        #ssh.connect(hostname=self._device["host"], port=self._device["port"], username=self._device["username"], password=self._device["password"])
-        #ssh.exec_command("uci set wireless.%s.disabled=1" % self._device["ifname"])
-        #ssh.exec_command("uci commit wireless")
-        #ssh.exec_command("wifi")
-        ssh.connect(hostname=self._device["host"], port=self._device["port"], key_filename="/config/.ssh/openwrt-key")        
-        ssh.exec_command("wifi-down %s" % self._device["ifname"])
+        ssh.connect(hostname=self._device["host"], port=self._device["port"], key_filename=self._device["key_filename"])
+        ssh.exec_command("%s-down %s" % (self._device["iftype"], self._device["ifname"]))
         ssh.close()

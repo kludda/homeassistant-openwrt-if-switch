@@ -1,5 +1,5 @@
 IFNAME = "ifname"
+IFTYPE = "wifi/network"
 HOST = "host"
-#USERNAME = "username"
-#PASSWORD = "password"
+KEYFILENAME = "key_filename"
 PORT = "port"

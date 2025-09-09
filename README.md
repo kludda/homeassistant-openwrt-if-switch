@@ -2,6 +2,8 @@
 
 Switch your WiFi on and off using Home Assistant.
 
+This fork adds key-pair auth and pseudo-commands to enchance security for root access to OpenWRT.
+
 ### Setup
 
 ## HAOS
@@ -28,7 +30,7 @@ Copy contents of public key:
 
 
 
-
+Add-on: File editor
 
 
 
@@ -42,7 +44,8 @@ cd ~/config/custom_components
 
 ```
 
-Execute `git clone https://git.multilan.de/tarek/homeassistant-openwrt-wifi-switch`
+Execute `git clone https://github.com/kludda/homeassistant-openwrt-wifi-switch.git`
+
 
 Add the following to your `configuration.yaml` file:
 
@@ -51,10 +54,20 @@ Add the following to your `configuration.yaml` file:
 openwrt_wifi_switch:
 - ifname: "<wifi-interface-ifname>"
   host: "<ssh-host>"
-  username: "<ssh-username>"
-  password: "<ssh-password>"
+  key_filename: "<path-to-private-key-file>"
   port: "<ssh-port>"
 ```
+
+```yaml
+# Example configuration.yaml entry
+openwrt_wifi_switch:
+- ifname: "wifinet3"
+  host: "192.168.1.1"
+  port: "22"
+  key_filename: !secret openwrt-key
+
+```
+  key_filename: "/config/.ssh/openwrt-key"
 
 
 
