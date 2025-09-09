@@ -124,17 +124,30 @@ Upload the private key `openwrt-key` to that folder.
 #### Configure custom component
 
 
-Add the following to your `configuration.yaml` file:
+Add to your `configuration.yaml` file:
 
 ```yaml
-# Example configuration.yaml entry
 openwrt_if_switch:
 - ifname: "<wifi-interface-ifname>"
   iftype: "'wifi' or 'network'"
   host: "<ssh-host>"
-  key_filename: "<path-to-private-key-file>"
   port: "<ssh-port>"
+  key_filename: "<path-to-private-key-file>"
 ```
+If you followed the guide above your path to the key will be:
+`key_filename: "/config/.ssh/openwrt-key"`
+
+
+```yaml
+# Example configuration.yaml entry
+openwrt_if_switch:
+- ifname: "default_radio0"
+  iftype: "wifi"
+  host: "192.168.1.1"
+  port: "22"
+  key_filename: "/config/.ssh/openwrt-key"
+```
+
 
 You can have multiple device entries:
 ```yaml
@@ -145,8 +158,7 @@ openwrt_if_switch:
   ...  
 ```
 
-If you followed the guide above your path to the key will be:
-`key_filename: "/config/.ssh/openwrt-key"`
+**Reboot Home Assistant.**
 
 
 Check your config for errors in Home Assistant and reboot if ok. Look for "OpenWRT Wifi/Network Switch" and you should have your switch entities there.
